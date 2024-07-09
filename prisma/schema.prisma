@@ -1,0 +1,54 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  userName  String   @unique
+  name      String
+  email     String   @unique
+  gender    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  order     Order[]
+}
+
+model Product {
+  id           String   @id @default(uuid())
+  name         String
+  priceInCents Int
+  description  String
+  imagePath    String
+  isAvailable  Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  order        Order[]
+}
+
+model Order {
+  id        String   @id @default(uuid())
+  soldPrice Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId    String
+  productId String
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product   Product @relation(fields: [productId], references: [id], onDelete: Restrict)
+}
+
+model Coupon {
+  id          String   @id @default(uuid())
+  code        String
+  price       Int
+  isAvailable Boolean  @default(false)
+  createdAt   DateTime @default(now())
+}
