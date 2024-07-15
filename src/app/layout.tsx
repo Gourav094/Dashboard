@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { cn } from "@/lib/utils";
-import SideNav from "@/components/dashboard/SideNav";
 
 const inter = Inter({ subsets: ["latin"],variable:"--font-sans" });
 
@@ -18,16 +16,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn(
-          "min-h-screen bg-background font-sans antialiased flex flex-col md:flex-row",
-          inter.variable
-        )}>
-          <div className="w-full md:w-64 flex-none border-r">
-              <SideNav/>
-          </div>
-          <div className="flex-grow p-6 md:p-8 md:overflow-y-auto">
+      <body>
             {children}
-          </div>
         </body>
     </html>
   );

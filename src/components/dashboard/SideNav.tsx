@@ -6,7 +6,7 @@ import NavLinks from './nav-links'
 const SideNav = () => {
   return (
     <div className='flex flex-col h-full px-3 py-4 md:px-2'>
-        <Link className='mb-2 flex h-20 items-end justify-start rounded-md bg-gray-100 p-4 md:h-20' href={"/"}>Tracker</Link>
+        <Link className='mb-1 flex h-20 items-end justify-start rounded-md bg-gray-100 p-4 md:h-24' href={"/"}>Tracker</Link>
         <div className="flex grow flex-row justify-between space-x-2 md:flex-col md:space-x-0 md:space-y-2">
           <NavLinks />
           <div className="h-auto w-full grow rounded-md bg-gray-50 md:block"></div>

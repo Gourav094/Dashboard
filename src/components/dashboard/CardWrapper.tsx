@@ -77,7 +77,7 @@ export function Card({title,total,icon} : CardProps) {
     return (
         <div className='rounded-xl bg-gray-50 shadow p-2'>
             <div className='flex p-4'>
-                <span>{icon}</span>
+                <span>{icon  }</span>
                 <h3 className="ml-2 text-sm font-medium">{title}</h3>
             </div>
             <p className='bg-white py-6 px-4 text-center text-2xl trucate'>{total}</p>
