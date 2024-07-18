@@ -19,8 +19,8 @@ const links = [
         icon:<IoCartOutline />
     },
     {
-        name:"Customers",
-        href:"/admin/customers",
+        name:"Users",
+        href:"/admin/users",
         icon:<TbUsersGroup />
     },
     {

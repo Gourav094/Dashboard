@@ -62,7 +62,7 @@ export default async function CardWrapper (){
             <Card title="Total Invoices" total = {formatNumber(salesData.totalSalesCount)} icon={<MdOutlineForwardToInbox/>}/>
             <Card title="Total Products" total = {formatNumber(productData.total)} icon={<IoCartOutline/>}/>
             {/* <Card title="Total Products" total = {formatNumber(couponData.total)}/> */}
-            <Card title="Total Customers" total = {formatNumber(userData.userCount)} icon ={<TbUsersGroup/>}/>
+            <Card title="Total Users" total = {formatNumber(userData.userCount)} icon ={<TbUsersGroup/>}/>
         </>
     )
 }

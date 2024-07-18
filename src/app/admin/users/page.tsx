@@ -17,7 +17,7 @@ const getUsers = async() => {
   return users;
 }
 
-const Customers = async() => {
+const Users = async() => {
   // const users = await getUsers()
   const users = [
     {
@@ -39,4 +39,4 @@ const Customers = async() => {
   )
 }
 
-export default Customers
+export default Users
