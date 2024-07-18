@@ -2,6 +2,7 @@ import React from 'react'
 import Image from 'next/image'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../ui/card'
 import { Button } from '../ui/button'
+import Link from 'next/link'
 
 type ProductCardProps = {
     id:string,
@@ -22,6 +23,9 @@ const ProductCard = ({id,image,name,priceInCents,description}:ProductCardProps) 
                 {name}
             </CardTitle>
         </CardContent>
+        <Button asChild size={"lg"} className='w-full'>
+            <Link href={`/${id}/purchase`}>Purchase</Link>
+        </Button>
     </Card>
   )
 }
