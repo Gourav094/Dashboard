@@ -18,6 +18,7 @@ model User {
   googleId                   String?
   reset_password_token       String?   @unique
   reset_password_expire_date DateTime?
+  isAdmin                    Boolean?   @default(false)
   createdAt                  DateTime  @default(now())
   updatedAt                  DateTime  @updatedAt
   order                      Order[]

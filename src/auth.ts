@@ -47,27 +47,36 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if(account?.provider === "google"){
         try{
           const {email,name,id} = user;
-          if(!email){
+          if(!email || !name){
             return false;
           }
-          const userExist = await db.user.findUnique({where:{email:email}})
-
-          if(!userExist){
+          const userExist = await db.user.findFirst({
+            where:{
+              OR:[
+                {email},
+                {userName:name}
+              ]
+            }
+          })
+          console.log("user existance info: ",userExist)
+          if(userExist != null){
+            return true;
+          }else{
             await db.user.create({
               data:{
                 userName:name as string,
                 email,
-                googleId:id
+                googleId:id,
               }
             })
           }
           return true;
         }
-        catch(error){
-          throw new AuthError("Error while creating user")
+        catch(error:any){
+          throw new AuthError(error)
         }
       }
       return false;
-    }
-  }
+    },
+  },
 })

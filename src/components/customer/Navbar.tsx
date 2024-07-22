@@ -1,3 +1,4 @@
+import { signOut } from '@/auth'
 import Image from 'next/image'
 import React from 'react'
 
@@ -12,6 +13,10 @@ const Navbar = () => {
                         <li className='cursor-pointer hover:text-gray-950' >Cart</li>
                         <li className='cursor-pointer hover:text-gray-950' >Orders</li>
                         <li className='cursor-pointer hover:text-gray-950' >About</li>
+                        <li className='cursor-pointer hover:text-gray-950' onClick={async() => {
+                            'use server'
+                            await signOut()
+                        }}>Sign out</li>
                     </ul>
                 </div>
             </div>
