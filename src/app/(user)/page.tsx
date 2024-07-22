@@ -1,3 +1,4 @@
+import { auth } from '@/auth'
 import ProductCard from '@/components/customer/ProductCard'
 import { Button } from '@/components/ui/button'
 import db from '@/db/db'
@@ -7,7 +8,8 @@ import { ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
 
-const getPopularProducts = cache(() => {
+const getPopularProducts = cache(async() => {
+  
   return db.product.findMany({
     orderBy:{
       order:{
@@ -29,7 +31,11 @@ const getAllProducts = cache(() => {
   return db.product.findMany()
 },["/","getAllProducts"])
 
-export default async function Products (){
+export default async function Products(){
+  const session = await auth()
+  console.log(session)
+
+
   const allproducts = await getAllProducts()
   const newestProducts = await getNewestProducts()
   const popularProducts = await getPopularProducts()

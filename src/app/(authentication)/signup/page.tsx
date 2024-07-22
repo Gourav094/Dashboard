@@ -1,10 +1,11 @@
-import LoginForm from '@/components/LoginForm'
+import SignupForm from '@/app/(authentication)/signup/SignupForm'
 import React from 'react'
 
 const page = () => {
   return (
-    <LoginForm />
+    <SignupForm />
   )
 }
 
 export default page
+ 

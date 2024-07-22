@@ -11,14 +11,15 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  userName  String   @unique
-  name      String
-  email     String   @unique
-  gender    String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  order     Order[]
+  id                         String    @id @default(uuid())
+  userName                   String    @unique
+  email                      String    @unique
+  password                   String
+  reset_password_token       String?   @unique 
+  reset_password_expire_date DateTime?
+  createdAt                  DateTime  @default(now())
+  updatedAt                  DateTime  @updatedAt
+  order                      Order[]
 }
 
 model Product {
