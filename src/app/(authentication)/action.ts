@@ -42,3 +42,14 @@ export const handleSignup = async(userName:string,email:string,password:string) 
 
     redirect("/login")
 }
+
+
+export const handleGoogleSignin = async() => {
+    console.log("calling google sign in method")
+    await signIn("google")
+    // try{
+    // }
+    // catch(err:any) {
+    //     console.log( err)
+    // }
+}

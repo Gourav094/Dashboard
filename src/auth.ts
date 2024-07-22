@@ -1,15 +1,16 @@
-import NextAuth from "next-auth"
+import NextAuth, { AuthError } from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
 import CredentialProvider from "next-auth/providers/credentials"
 import db from "./db/db"
 import { compare } from "bcryptjs"
+import { tree } from "next/dist/build/templates/app-page"
 
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
     GoogleProvider({
-      clientId: process.env.CLIENT_ID,
-      clientSecret: process.env.CLIENT_SECRET
+      clientId: process.env.AUTH_GOOGLE_ID,
+      clientSecret: process.env.AUTH_GOOGLE_SECRET
     }),
     CredentialProvider({
       name:"credentials",
@@ -25,7 +26,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         } 
         const user = await db.user.findUnique({where: {email}})
         
-        if(!user){
+        if(!user || !user.password){
           throw new Error ("Email doesn't exist",{cause:["Email doesn't exist"]})
         }
 
@@ -40,5 +41,33 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   ],
   pages: {
     signIn: "/login",
+  },
+  callbacks:{
+    signIn: async({user,account}) => {
+      if(account?.provider === "google"){
+        try{
+          const {email,name,id} = user;
+          if(!email){
+            return false;
+          }
+          const userExist = await db.user.findUnique({where:{email:email}})
+
+          if(!userExist){
+            await db.user.create({
+              data:{
+                userName:name as string,
+                email,
+                googleId:id
+              }
+            })
+          }
+          return true;
+        }
+        catch(error){
+          throw new AuthError("Error while creating user")
+        }
+      }
+      return false;
+    }
   }
 })
