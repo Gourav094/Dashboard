@@ -1,13 +1,14 @@
 'use client'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { DropdownMenu, DropdownMenuItem, DropdownMenuGroup, DropdownMenuSeparator, DropdownMenuTrigger, DropdownMenuContent } from '@/components/ui/dropdown-menu'
-import { useState } from 'react'
+import {  useEffect, useState, useTransition } from 'react'
 import { Input } from '../ui/input'
-import Link from 'next/link'
-import { Button } from '../ui/button'
-import { MoreVertical } from 'lucide-react'
 import { formatCurrency, formatNumber } from '@/lib/formatters'
-import { DeleteDropdown } from './UserDropdown'
+import { HiOutlineUserRemove } from "react-icons/hi";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip'
+import { deleteUser } from '@/app/admin/_actions/user'
+import { useRouter } from 'next/navigation'
+import { toast } from 'sonner'
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '../ui/alert-dialog'
 
 type User = {
     id:string,
@@ -21,7 +22,21 @@ type User = {
 export default function UserList({users}:{users:User[]}){
     const [search,setSearch] = useState("")
     const [filteredUsers,setFilteredUsers] = useState<User[]>(users)
+    const [isPending,startTransition] = useTransition()
+    const router = useRouter()
 
+    useEffect(() => {
+        setFilteredUsers(users);
+    }, [users]);
+
+    const handleDeleteUser = async(id:string) => {
+        startTransition(async() => {
+            console.log("deleteing the user")
+            await deleteUser(id)
+            router.refresh()
+            toast.success("User deleted successfully")
+        })
+    }
     const handleChange = (e:any) => {
         const input = e.target.value;
         if (input === "") {
@@ -59,27 +74,24 @@ export default function UserList({users}:{users:User[]}){
                         <TableCell>{formatNumber(user.order.length)}</TableCell>
                         <TableCell>{formatCurrency(user.order.reduce((sum,acc) => acc.soldPrice + sum,0)/100)}</TableCell>
                         <TableCell>
-                        <DropdownMenu>
-                            <DropdownMenuTrigger >
-                            <MoreVertical/>
-                            <span className='sr-only'>Actions</span>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent>
-                            {/* <DropdownMenuGroup>
-                                <DropdownMenuItem>
-                                <a href={`/users/${user.id}`}>View</a>
-                                </DropdownMenuItem>
-                                <DropdownMenuItem>
-                                <Link href={`/users/${user.id}/edit`}>Edit</Link>
-                                </DropdownMenuItem>
-                                <DropdownMenuItem>
-                                <ActiveToggleDropdown id = {user.id} isAvailable = {user.isAvailable}></ActiveToggleDropdown>
-                                </DropdownMenuItem>
-                            </DropdownMenuGroup>
-                            <DropdownMenuSeparator/>*/}
-                                <DeleteDropdown id = {user.id}/>
-                            </DropdownMenuContent>
-                        </DropdownMenu>
+                        <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                                <button className='text-xl' ><HiOutlineUserRemove/></button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                                <AlertDialogHeader>
+                                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                    This action cannot be undone. This will permanently delete your
+                                    account and remove your data from our servers.
+                                </AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogAction onClick={() => handleDeleteUser(user.id)}>Continue</AlertDialogAction>
+                                </AlertDialogFooter>
+                            </AlertDialogContent>
+                            </AlertDialog>
                         </TableCell>
                     </TableRow>
                     ))}

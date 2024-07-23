@@ -8,7 +8,7 @@ import { ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
 
-const getPopularProducts = cache(async() => {
+const getPopularProducts = async() => {
   
   return db.product.findMany({
     orderBy:{
@@ -17,19 +17,19 @@ const getPopularProducts = cache(async() => {
       }
     }
   })
-},["/","getPopularProducts"],{revalidate:60*24*24})
+}
 
-const getNewestProducts = cache(() => {
+const getNewestProducts = () => {
   return db.product.findMany({
     orderBy:{
       createdAt:"desc"
     }
   })
-},["/","getNewestProducts"])
+}
 
-const getAllProducts = cache(() => {
+const getAllProducts = () => {
   return db.product.findMany()
-},["/","getAllProducts"])
+}
 
 export default async function Products(){
   const session = await auth()

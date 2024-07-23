@@ -6,7 +6,7 @@ const page = () => {
   return (
     <div>
         <Breadcrumb breadcrumbs={[
-            {label:"product",href: "/products",active:false},
+            {label:"product",href: "/admin/products",active:false},
             {label:"add",href:"/products/new",active:true}
         ]}/>
         <ProductForm/>

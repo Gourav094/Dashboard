@@ -1,6 +1,7 @@
 'use server'
 
 import db from "@/db/db"
+import { revalidatePath } from "next/cache"
 import { notFound } from "next/navigation"
 
 export async function deleteUser(id:string){ 
@@ -8,5 +9,6 @@ export async function deleteUser(id:string){
     if(user == null){
         return notFound()
     }
-    
+    revalidatePath("/")
+    revalidatePath("/admin/users")
 }

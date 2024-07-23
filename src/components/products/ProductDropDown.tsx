@@ -10,7 +10,7 @@ export function ActiveToggleDropdown({id,isAvailable}:{id:string,isAvailable:boo
     const router = useRouter()
 
     return (
-        <DropdownMenuItem  onClick = { () => {
+        <DropdownMenuItem disabled = {isPending} onClick = { () => {
             startTransition(async() => {
                 const user = await updateAvailability(id,!isAvailable)
                 router.refresh()

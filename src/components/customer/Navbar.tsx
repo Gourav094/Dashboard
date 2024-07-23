@@ -24,7 +24,7 @@ const Navbar = async () => {
                         <li className='cursor-pointer hover:text-gray-950' >About</li>
                         {
                             !session?.user?.email ? (
-                                <li className='cursor-pointer hover:text-gray-950' >Login</li>
+                                <Link href={"/login"} className='cursor-pointer hover:text-gray-950' >Login</Link>
                             ) : (
                                 <DropdownMenu>
                                     <DropdownMenuTrigger asChild>
@@ -36,7 +36,7 @@ const Navbar = async () => {
                                             )
                                         }
                                     </DropdownMenuTrigger>
-                                    <DropdownMenuContent className="mt-2 py-2 px-2 font-normal">
+                                    <DropdownMenuContent className="mt-2 py-2 px-2 font-light">
                                         <DropdownMenuGroup>
                                             <DropdownMenuLabel >
                                                 <Link href={"/profile"} className='flex gap-2 '>
