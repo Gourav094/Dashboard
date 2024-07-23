@@ -3,7 +3,6 @@ import GoogleProvider from "next-auth/providers/google"
 import CredentialProvider from "next-auth/providers/credentials"
 import db from "./db/db"
 import { compare } from "bcryptjs"
-import { tree } from "next/dist/build/templates/app-page"
 
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
@@ -35,7 +34,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         if (!isMatch) {
           throw new Error ("Invalid password",{cause:["Invalid Password"]})
         }
-        return user;
+        return {
+          id:user.id,
+          email:user.email,
+          userName:user.userName,
+          isAdmin:user.isAdmin
+        }
       }
     })
   ],
@@ -67,6 +71,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 userName:name as string,
                 email,
                 googleId:id,
+                isAdmin:false
               }
             })
           }
@@ -76,7 +81,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           throw new AuthError(error)
         }
       }
-      return false;
+      return true;
+    },
+    async jwt({ token }) {
+      return token
+    },
+    async session({ session }) {
+      return session
     },
   },
 })

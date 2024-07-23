@@ -12,8 +12,11 @@ export const handleSignin = async(email:string,password:string) => {
             redirect:false
         });
     } catch (error) {
-        const err = (error as any)?.cause[0]
-        return { success: false, error: err };
+        const err = (error as any)?.cause
+        if(err) {
+            return {error:err[0]}
+        }
+        return { success: false, error: "Unexpected error occured" };
     }
    
 }
@@ -45,11 +48,5 @@ export const handleSignup = async(userName:string,email:string,password:string) 
 
 
 export const handleGoogleSignin = async() => {
-    console.log("calling google sign in method")
     await signIn("google")
-    // try{
-    // }
-    // catch(err:any) {
-    //     console.log( err)
-    // }
 }

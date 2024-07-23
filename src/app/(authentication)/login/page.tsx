@@ -4,7 +4,7 @@ import React from 'react'
 
 const page = async() => {
   const session = await auth()
-  console.log("user info: ",session)
+  console.log("user info from login file: ",session?.user)
   return (
     <LoginForm />
   )
