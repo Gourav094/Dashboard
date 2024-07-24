@@ -1,8 +1,20 @@
+import CouponTable from '@/components/coupons/CouponTable';
+import db from '@/db/db';
 import React from 'react'
 
-const Coupons = () => {
+const getAllCoupons = async() => {
+  const coupons = await db.coupon.findMany()
+  return coupons;
+}
+
+const Coupons = async() => {
+  const coupons = await getAllCoupons();
+  console.log("successfully got coupons in page/admin/coupons",coupons)
   return (
-    <div>Coupons</div>
+    <div>
+      <h1 className="text-base md:text-xl font-medium">Coupons</h1>
+      <CouponTable coupons = {coupons} />
+    </div>
   )
 }
 

@@ -4,7 +4,6 @@ import {  useEffect, useState, useTransition } from 'react'
 import { Input } from '../ui/input'
 import { formatCurrency, formatNumber } from '@/lib/formatters'
 import { HiOutlineUserRemove } from "react-icons/hi";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip'
 import { deleteUser } from '@/app/admin/_actions/user'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
@@ -52,8 +51,8 @@ export default function UserList({users}:{users:User[]}){
     return (
         <>
             <div className='flex flex-row gap-6 items-center'>
-                    <Input placeholder="Search by username" value={search} onChange={handleChange} className='my-8 focus-visible:no-underline focus-visible:ring-offset-0'/>
-                </div>
+                <Input placeholder="Search by username" value={search} onChange={handleChange} className='my-8 focus-visible:no-underline focus-visible:ring-offset-0'/>
+            </div>
             <Table>
                 <TableHeader>
                 <TableRow>
