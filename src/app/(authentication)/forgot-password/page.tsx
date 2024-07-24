@@ -4,6 +4,7 @@ import { sendResetEmail } from "../action";
 import { useState, useTransition } from "react";
 import { MdDone } from "react-icons/md";
 import Link from "next/link";
+import { toast } from "sonner";
 
 
 export default function ForgotPassword() {
@@ -12,7 +13,7 @@ export default function ForgotPassword() {
 
     return (
         <div className={cn(`flex min-h-full w-full flex-col justify-center items-center px-6 py-12 lg:px-8`)}>
-            {resetSuccess ? (
+            {!resetSuccess ? (
             <>
             <div className="sm:mx-auto sm:w-full sm:max-w-sm">
 
@@ -21,13 +22,16 @@ export default function ForgotPassword() {
             </div>
 
             <div className="mt-6 sm:mx-auto sm:w-full sm:max-w-sm">
-                <form className="space-y-6" onSubmit={async(e) => {
+                <form className="space-y-2" onSubmit={async(e) => {
                     e.preventDefault()
                     const formData = new FormData(e.currentTarget);
                     const email = formData.get("email") as string
                     startTransition(async() => {
                         const result = await sendResetEmail(email);
-                        if(result.success){
+                        if(!result.success){
+                            toast.error(result?.error)
+                        }
+                        else{
                             setResetSuccess(true);
                         }
                     })
@@ -38,7 +42,7 @@ export default function ForgotPassword() {
                             <input id="email" name="email" type="email" className="block w-full rounded-md border-0 py-1.5 px-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                         </div>
                     </div>
-
+                    <Link href="/login" className="leading-6 text-indigo-600 text-sm hover:text-indigo-500"> Back to login</Link>
                     <div>
                         <button type="submit" className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                             {isPending ? "Sending..":"Submit"}

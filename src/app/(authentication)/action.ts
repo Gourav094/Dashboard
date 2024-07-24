@@ -59,6 +59,12 @@ interface SendResetEmailResponse {
 
 export const sendResetEmail = async (email: string): Promise<SendResetEmailResponse> => {
     try {
+        const user = await db.user.findUnique({where:{email:email}});
+
+        if(!user){
+            return {success:false,error:"User doesn't exist"}
+        }
+
         await sendEmail(email); 
         return { success: true };
     } catch (err) {
@@ -66,3 +72,38 @@ export const sendResetEmail = async (email: string): Promise<SendResetEmailRespo
         return { success: false, error: 'An unknown error occurred' }; 
     }
 };
+
+export const resetPassword = async(token:string,newPassword:string) => {
+    console.log(token,newPassword)
+    try{
+        if(!token){
+            throw new Error("Token is required!");
+        }
+
+        const user = await db.user.findUnique({where:{reset_password_token:token}});
+        
+        if(!user){
+            return {success:false,error:"user doesn't exist"}
+        }
+
+        const currentDate = new Date();
+        if (user.reset_password_expire_date && currentDate > user.reset_password_expire_date) {
+            return { success: false, error: "Token has expired. Please reset your password again" };
+        }
+
+        const hashedPassword = await hash(newPassword,10) 
+
+        await db.user.update({
+            where: { id: user.id },
+            data: {
+                password: hashedPassword,
+                reset_password_token: null, 
+                reset_password_expire_date: null 
+            }
+        });
+
+        return {success:true,message:"Password changed successfully"}
+    }catch(err){
+        return {success:false,error:"Unexpected error occurred. Please reset your password again."}
+    }
+}

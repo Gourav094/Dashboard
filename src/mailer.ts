@@ -16,7 +16,7 @@ export const sendEmail = async (email:string) => {
         const hashedToken = generateToken(email,10)
         console.log("token generated: ",hashedToken)
         const expiryDate = new Date();
-        expiryDate.setHours(expiryDate.getHours() + 1);
+        expiryDate.setHours(expiryDate.getHours() + 0.5);
 
         const user = await db.user.update({
             where: {
