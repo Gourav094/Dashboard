@@ -75,10 +75,10 @@ export async function updateCoupon(id: string, preState: unknown, formData: Form
     await db.coupon.update({
         where: { id },
         data: {
-            code:coupon.code,
-            description:coupon.description,
-            minOrderValue:coupon.minOrderValue,
-            maxDiscount: coupon.maxDiscount,
+            code:data.code,
+            description:data.description,
+            minOrderValue:data.minOrderValue,
+            maxDiscount: data.maxDiscount,
             image:filePath,
             isAvailable: true,
         }

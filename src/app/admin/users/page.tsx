@@ -1,6 +1,7 @@
+import {  UsersTableSkeleton } from '@/components/skeletons'
 import UserList from '@/components/users/UsersList'
 import db from '@/db/db'
-import React from 'react'
+import React, { Suspense } from 'react'
 
 const getUsers = async() => {
   const users = await db.user.findMany({
@@ -22,7 +23,9 @@ const Users = async() => {
   return (
     <>
       <h2 className="text-xl font-medium">Users</h2>
-      <UserList users = {users} />
+      <Suspense fallback={<UsersTableSkeleton />}>
+        <UserList users = {users} />
+      </Suspense>
     </>
   )
 }

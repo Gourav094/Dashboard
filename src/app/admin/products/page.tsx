@@ -1,5 +1,6 @@
 import ProductList from '@/components/products/ProductList'
 import db from '@/db/db'
+import { Suspense } from 'react'
 
 async function getProducts() {
   const products = await db.product.findMany({
@@ -21,7 +22,9 @@ const Products = async() => {
   const products = await getProducts()
 
   return (
-      <ProductList products = {products}/>
+    <>
+        <ProductList products = {products}/>
+    </>
   )
 }
 

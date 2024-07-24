@@ -9,7 +9,6 @@ const getAllCoupons = async() => {
 
 const Coupons = async() => {
   const coupons = await getAllCoupons();
-  console.log("successfully got coupons in page/admin/coupons",coupons)
   return (
     <div>
       <h1 className="text-base md:text-xl font-medium">Coupons</h1>

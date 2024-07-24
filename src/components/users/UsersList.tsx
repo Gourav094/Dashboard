@@ -56,10 +56,10 @@ export default function UserList({users}:{users:User[]}){
             <Table>
                 <TableHeader>
                 <TableRow>
+                    <TableHead>Customer</TableHead>
                     <TableHead>Email</TableHead>
-                    <TableHead>UserName</TableHead>
                     <TableHead>orders</TableHead>
-                    <TableHead>value</TableHead>
+                    <TableHead>Amount</TableHead>
                     <TableHead className='w-0'>
                     <span className='sr-only'>Actions</span>
                     </TableHead>
@@ -68,14 +68,15 @@ export default function UserList({users}:{users:User[]}){
                 <TableBody>
                     {filteredUsers?.map((user,index) => (
                     <TableRow key = {index}>
-                        <TableCell>{user.email}</TableCell>
                         <TableCell>{user.userName}</TableCell>
+                        <TableCell>{user.email}</TableCell>
                         <TableCell>{formatNumber(user.order.length)}</TableCell>
                         <TableCell>{formatCurrency(user.order.reduce((sum,acc) => acc.soldPrice + sum,0)/100)}</TableCell>
                         <TableCell>
                         <AlertDialog>
                             <AlertDialogTrigger asChild>
-                                <button className='text-xl' ><HiOutlineUserRemove/></button>
+                            <button className="rounded-md border p-2 hover:bg-gray-100 text-lg">
+                            <span className="sr-only">Delete</span><HiOutlineUserRemove/></button>
                             </AlertDialogTrigger>
                             <AlertDialogContent>
                                 <AlertDialogHeader>
