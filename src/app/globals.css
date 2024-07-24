@@ -2,17 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-
-.webkit-line-clamp {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-}
+body {
+	@apply bg-background text-foreground;
+	font-family: var(--font-sans, 'Inter', sans-serif); 
+  }
 
 @layer base {
 	:root {
+		--font-sans: 'Inter', sans-serif;
 		--background: 0 0% 100%;
 		--foreground: 222.2 84% 4.9%;
 

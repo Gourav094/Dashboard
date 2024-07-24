@@ -1,6 +1,7 @@
 "use server"
 import { signIn } from "@/auth";
 import db from "@/db/db";
+import { sendEmail } from "@/mailer";
 import {hash} from "bcryptjs"
 import { redirect } from "next/navigation";
 
@@ -50,3 +51,18 @@ export const handleSignup = async(userName:string,email:string,password:string) 
 export const handleGoogleSignin = async() => {
     await signIn("google")
 }
+
+interface SendResetEmailResponse {
+    success: boolean;
+    error?: string; 
+}
+
+export const sendResetEmail = async (email: string): Promise<SendResetEmailResponse> => {
+    try {
+        await sendEmail(email); 
+        return { success: true };
+    } catch (err) {
+        console.error("Error sending reset email:", err); 
+        return { success: false, error: 'An unknown error occurred' }; 
+    }
+};
