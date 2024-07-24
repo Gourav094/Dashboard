@@ -14,7 +14,7 @@ export default function CouponTable({ coupons }: { coupons: Coupon[] }) {
             <div className='flex flex-row gap-6 my-5 items-center'>
                 <Link href={"/admin/coupons/new"}>
                     <Button className="" size={"md"}>
-                        + Add Coupon
+                        +  Add Coupon
                     </Button>
                 </Link>
             </div>

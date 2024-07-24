@@ -1,5 +1,5 @@
 import { AddCoupon } from '@/components/coupons/AddCouponForm'
-import Breadcrumb from '@/components/products/Breadcrumb'
+import Breadcrumb from '@/components/Breadcrumb'
 import React from 'react'
 
 const page = () => {

@@ -31,8 +31,8 @@ export function AddCoupon ({coupon}:{coupon?:Coupon | null}){
                     {error.maxDiscount && <div className='text-destructive'>{error.maxDiscount}</div>}
                 </div>
                 <div className="space-y-2">
-                    <label htmlFor="minOrder">Min order value *</label>
-                    <Input type="number" id="minOrder" name="minOrder" required
+                    <label htmlFor="minOrderValue">Min order value *</label>
+                    <Input type="number" id="minOrderValue" name="minOrderValue" required
                         defaultValue={coupon?.maxDiscount}/>
                     {error.minOrderValue && <div className='text-destructive'>{error.minOrderValue}</div>}
                 </div>

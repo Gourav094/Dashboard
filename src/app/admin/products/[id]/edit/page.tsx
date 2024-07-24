@@ -1,4 +1,4 @@
-import Breadcrumb from "@/components/products/Breadcrumb"
+import Breadcrumb from "@/components/Breadcrumb"
 import ProductForm from "@/components/products/ProductForm"
 import db from "@/db/db"
 
