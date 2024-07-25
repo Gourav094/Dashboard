@@ -10,7 +10,7 @@ import SignoutButton from './SignoutButton';
 const Navbar = async () => {
 
     const session = await auth()
-    console.log(session?.user)
+    console.log(session)
 
     return (
         <div className='bg-violet-50 bg-opacity-70 top-0 z-50 sticky'>

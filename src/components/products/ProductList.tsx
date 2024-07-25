@@ -15,6 +15,7 @@ type Product = {
     id:string,
     isAvailable:boolean,
     name:string,
+    description:string,
     priceInCents:number,
     _count: {
         order: number
@@ -24,7 +25,6 @@ type Product = {
 export default function ProductList({products} : {products:Product[]}){
     const [search,setSearch] = useState("")
     const [filteredProducts,setFilteredProducts] = useState<Product[]>(products)
-
     useEffect(() => {
         setFilteredProducts(products);
     }, [products]);
@@ -60,6 +60,7 @@ export default function ProductList({products} : {products:Product[]}){
                     <span className='sr-only'>Available for purchase</span>
                     </TableHead>
                     <TableHead>Name</TableHead>
+                    <TableHead>Description</TableHead>
                     <TableHead>Price</TableHead>
                     <TableHead>Orders</TableHead>
                     <TableHead className='w-0'>
@@ -84,6 +85,7 @@ export default function ProductList({products} : {products:Product[]}){
                         </>
                         )}</TableCell>
                         <TableCell>{product.name}</TableCell>
+                        <TableCell>{product.description}</TableCell>
                         <TableCell>{formatCurrency(product.priceInCents/100)}</TableCell>
                         <TableCell>{formatNumber(product._count.order)}</TableCell>
                         <TableCell>

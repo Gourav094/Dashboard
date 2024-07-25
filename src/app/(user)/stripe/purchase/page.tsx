@@ -1,3 +1,4 @@
+import { auth } from "@/auth"
 import { Button } from "@/components/ui/button"
 import db from "@/db/db"
 import { formatCurrency } from "@/lib/formatters"
@@ -13,6 +14,9 @@ export default async function SuccessPurchase({
 }: {
     searchParams: { payment_intent: string }
 }) {
+    const session = await auth()
+    const userId = session?.user?.id
+    
     const paymentIntent = await stripe.paymentIntents.retrieve(
         searchParams.payment_intent
     )
@@ -21,9 +25,32 @@ export default async function SuccessPurchase({
     const product = await db.product.findUnique({
         where: { id: paymentIntent.metadata.productId },
     })
-    if (product == null) return notFound()
+
+    console.log("message from page/successPurchase: ",userId)
+    if (product == null || !userId) return notFound()
 
     const isSuccess = paymentIntent.status === "succeeded"
+
+    
+    if(isSuccess){
+        const existingOrder = await db.order.findFirst({
+            where: {
+                userId: userId,
+                productId: paymentIntent.metadata.productId,
+                soldPrice: paymentIntent.amount
+            },
+        })
+
+        if (!existingOrder) {
+            await db.order.create({
+                data: {
+                    soldPrice: paymentIntent.amount,
+                    userId: userId,
+                    productId: paymentIntent.metadata.productId
+                }
+            })
+        }
+    }
 
     return (
         <div className="max-w-5xl w-full mx-auto space-y-8">

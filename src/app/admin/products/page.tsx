@@ -1,4 +1,5 @@
 import ProductList from '@/components/products/ProductList'
+import { ProductsTableSkeleton } from '@/components/skeletons'
 import db from '@/db/db'
 import { Suspense } from 'react'
 
@@ -8,6 +9,7 @@ async function getProducts() {
       id:true,
       isAvailable:true,
       name:true,
+      description:true,
       priceInCents:true,
       _count : {select:{
         order: true
@@ -23,7 +25,9 @@ const Products = async() => {
 
   return (
     <>
+      <Suspense fallback={<ProductsTableSkeleton/>}>
         <ProductList products = {products}/>
+      </Suspense>
     </>
   )
 }

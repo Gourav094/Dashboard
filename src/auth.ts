@@ -4,7 +4,6 @@ import CredentialProvider from "next-auth/providers/credentials"
 import db from "./db/db"
 import { compare } from "bcryptjs"
 
-
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
     GoogleProvider({
@@ -83,10 +82,16 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       }
       return true;
     },
-    async jwt({ token }) {
+    async jwt({ token ,user}) {
+      if(user){
+        token.id = user.id
+      }
       return token
     },
-    async session({ session }) {
+    async session({ session,token }) {
+      if(session.user){
+        session.user.id = token.id as string
+      }
       return session
     },
   },

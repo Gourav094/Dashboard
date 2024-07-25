@@ -1,6 +1,7 @@
 import CouponTable from '@/components/coupons/CouponTable';
+import { CouponsTableSkeleton } from '@/components/skeletons';
 import db from '@/db/db';
-import React from 'react'
+import React, { Suspense } from 'react'
 
 const getAllCoupons = async() => {
   const coupons = await db.coupon.findMany()
@@ -12,7 +13,9 @@ const Coupons = async() => {
   return (
     <div>
       <h1 className="text-base md:text-xl font-medium">Coupons</h1>
-      <CouponTable coupons = {coupons} />
+      <Suspense fallback={<CouponsTableSkeleton/>}>
+        <CouponTable coupons = {coupons} />
+      </Suspense>
     </div>
   )
 }

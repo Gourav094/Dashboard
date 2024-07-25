@@ -75,7 +75,7 @@ const Form = ({ priceInCents, productId }: { priceInCents: number, productId: st
         if (stripe == null || elements == null || email == null) return
 
         setIsLoading(true)
-console.log(stripe)
+
         stripe
             .confirmPayment({
                 elements,
@@ -92,7 +92,6 @@ console.log(stripe)
                 }
             })
             .finally(() => setIsLoading(false))
-
     }
 
     return (
