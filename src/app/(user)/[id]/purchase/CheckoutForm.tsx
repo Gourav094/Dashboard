@@ -25,7 +25,7 @@ type CheckoutFormProps = {
         id: string,
         name: string,
         image: string,
-        priceInCents: number,
+        price: number,
         description: string
     },
     clientSecret: string
@@ -49,7 +49,7 @@ export function CheckoutForm({ product, clientSecret }: CheckoutFormProps) {
                 </div>
                 <div>
                     <div className="text-lg">
-                        {formatCurrency(product.priceInCents / 100)}
+                        {formatCurrency(product.price)}
                     </div>
                     <h1 className="text-2xl font-bold">{product.name}</h1>
                     <div className="line-clamp-3 text-muted-foreground">
@@ -58,12 +58,12 @@ export function CheckoutForm({ product, clientSecret }: CheckoutFormProps) {
                 </div>
             </div>
             <Elements options={{ clientSecret }} stripe={stripePromise}>
-                <Form priceInCents={product.priceInCents} productId={product.id} />
+                <Form price={product.price} productId={product.id} />
             </Elements>
         </div>
     )
 }
-const Form = ({ priceInCents, productId }: { priceInCents: number, productId: string }) => {
+const Form = ({ price, productId }: { price: number, productId: string }) => {
     const stripe = useStripe()
     const elements = useElements()
     const [email, setEmail] = useState<string>()
@@ -121,7 +121,7 @@ const Form = ({ priceInCents, productId }: { priceInCents: number, productId: st
                     >
                         {isLoading
                             ? "Purchasing..."
-                            : `Purchase - ${formatCurrency(priceInCents / 100)}`}
+                            : `Purchase - ${formatCurrency(price)}`}
                     </Button>
                 </CardFooter>
             </Card>

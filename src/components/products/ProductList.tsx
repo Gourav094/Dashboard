@@ -17,7 +17,7 @@ type Product = {
     isAvailable:boolean,
     name:string,
     description:string,
-    priceInCents:number,
+    price:number,
     _count: {
         order: number
     }
@@ -74,7 +74,7 @@ export default function ProductList({products} : {products:Product[]}){
                     <TableRow key = {product.id}>
                         <TableCell>{product.name}</TableCell>
                         <TableCell>{product.description}</TableCell>
-                        <TableCell>{formatCurrency(product.priceInCents/100)}</TableCell>
+                        <TableCell>{formatCurrency(product.price)}</TableCell>
                         <TableCell>{formatNumber(product._count.order)}</TableCell>
                         <TableCell>
                         <span className={clsx(

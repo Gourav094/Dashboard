@@ -10,7 +10,7 @@ async function getProducts() {
       isAvailable:true,
       name:true,
       description:true,
-      priceInCents:true,
+      price:true,
       _count : {select:{
         order: true
       }}

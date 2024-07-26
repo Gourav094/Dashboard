@@ -25,16 +25,16 @@ model User {
 }
 
 model Product {
-  id           String   @id @default(uuid())
-  name         String
-  priceInCents Int
-  description  String
-  category     String   @default("Electronics") 
-  image        String
-  isAvailable  Boolean  @default(true)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  order        Order[]
+  id          String   @id @default(uuid())
+  name        String
+  price       Int
+  description String
+  category    String   @default("Electronics")
+  image       String
+  isAvailable Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  order       Order[]
 }
 
 model Order {

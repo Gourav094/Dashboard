@@ -8,11 +8,11 @@ type ProductCardProps = {
     id:string,
     image:string,
     name:string,
-    priceInCents:number,
+    price:number,
     description:string
 }
 
-const ProductCard = ({id,image,name,priceInCents,description}:ProductCardProps) => {
+const ProductCard = ({id,image,name,price,description}:ProductCardProps) => {
   return (
     <Card className="flex flex-wrap transition duration-200 w-full hover:cursor-pointer hover:scale-95 hover:duration-200">
         <div className='relative h-56 w-full'>

@@ -12,7 +12,7 @@ export default async function Purchase({params: { id }}: {
     if(!product)return notFound()
     
     const paymentIntent = await stripe.paymentIntents.create({
-        amount: product.priceInCents,
+        amount: product.price,
         currency: "INR",
         metadata: {productId: product.id}
     })

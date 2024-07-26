@@ -11,7 +11,6 @@ import { Product } from '@prisma/client'
 import Image from 'next/image'
 
 const ProductForm = ({product}:{product?:Product | null}) => {
-    const [priceInCents,setPriceInCents] = useState<number | undefined>(product?.priceInCents)
     const [error, action] = useFormState(product == null ? addProduct : updateProduct.bind(null,product.id), {})
     
     return (
@@ -33,14 +32,12 @@ const ProductForm = ({product}:{product?:Product | null}) => {
                     {error && error.category && <div className='text-destructive'>{error.category}</div>}
                 </div>
                 <div className="space-y-2">
-                    <label htmlFor="priceInCents">Price in cents</label>
-                    <Input type="number" id="priceInCents" name="priceInCents" required
-                        value={priceInCents}
-                        onChange={e => setPriceInCents(Number(e.target.value) || undefined)} />
-                    <div className="text-muted-foreground">
+                    <label htmlFor="price">Price in cents</label>
+                    <Input type="number" id="price" name="price" required defaultValue={product?.price}  />
+                    {/* <div className="text-muted-foreground">
                         {formatCurrency((priceInCents || 0) / 100)}
-                    </div>
-                    {error && error.priceInCents && <div className='text-destructive'>{error.priceInCents}</div>}
+                    </div> */}
+                    {error && error.price && <div className='text-destructive'>{error.price}</div>}
                 </div>
                 <div className="space-y-2">
                     <label htmlFor="image">File</label>

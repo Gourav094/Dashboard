@@ -1,10 +1,13 @@
 import LoginForm from '@/app/(authentication)/login/LoginForm'
 import { auth } from '@/auth'
+import { redirect } from 'next/navigation'
 import React from 'react'
 
 const page = async() => {
   const session = await auth()
-  console.log("user info from login file: ",session?.user)
+  if(session?.user){
+    redirect("/")
+  }
   return (
     <LoginForm />
   )
