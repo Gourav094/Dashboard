@@ -20,12 +20,12 @@ const ProductForm = ({product}:{product?:Product | null}) => {
                 <div className="space-y-2">
                     <label htmlFor="name">Product name</label>
                     <Input type="text" id="name" name="name" required defaultValue={product?.name}/>
-                    {error.name && <div className='text-destructive'>{error.name}</div>}
+                    {error && error.name && <div className='text-destructive'>{error.name}</div>}
                 </div>
                 <div className="space-y-2">
                     <label htmlFor="description">Product description</label>
                     <Textarea name="description" id ="description" placeholder='description' required defaultValue={product?.description}/>
-                    {error.description && <div className='text-destructive'>{error.description}</div>}
+                    {error && error.description && <div className='text-destructive'>{error.description}</div>}
                 </div>
                 <div className="space-y-2">
                     <label htmlFor="priceInCents">Price in cents</label>
@@ -35,13 +35,13 @@ const ProductForm = ({product}:{product?:Product | null}) => {
                     <div className="text-muted-foreground">
                         {formatCurrency((priceInCents || 0) / 100)}
                     </div>
-                    {error.priceInCents && <div className='text-destructive'>{error.priceInCents}</div>}
+                    {error && error.priceInCents && <div className='text-destructive'>{error.priceInCents}</div>}
                 </div>
                 <div className="space-y-2">
                     <label htmlFor="image">File</label>
                     <Input type="file" id="image" name="image" required = {product == null}/>
                     {product != null && (<Image src={product?.image|| ""} alt="product" height={250} width={250}/>)}
-                    {error.image && <div className='text-destructive'>{error.image}</div>}
+                    {error && error.image && <div className='text-destructive'>{error.image}</div>}
                 </div>
             </div>
             <div className="flex gap-4 items-center my-8 justify-end">

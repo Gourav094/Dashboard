@@ -4,6 +4,7 @@ import { notFound, redirect } from "next/navigation"
 import { z } from "zod"
 import fs from "fs/promises"
 import { revalidatePath } from "next/cache"
+import { checkAdmin } from "@/lib/checkAdmin"
 
 const fileSchema = z.instanceof(File)
   .refine(file => file.size === 0 || file.type.startsWith('image/'), { message: "File must be an image" });
@@ -17,8 +18,14 @@ const addSchema = z.object({
 });
 
 export async function addCoupon(preState: unknown, formData: FormData) {
+    const isAdmin = await checkAdmin()
+
+    if(!isAdmin){
+        return {code: "",description: "",maxDiscount:"",minOrderValue:"",image :"You don't have required persmission to perform this action"}
+    }
+
     const result = addSchema.safeParse(Object.fromEntries(formData.entries()))
-    console.log(Object.fromEntries(formData.entries()))
+
     if (result.success === false) {
         console.log("getting error in coupon",result.error)
         return result.error.formErrors.fieldErrors
@@ -50,8 +57,14 @@ export async function addCoupon(preState: unknown, formData: FormData) {
 const updateSchema = addSchema.extend({})
 
 export async function updateCoupon(id: string, preState: unknown, formData: FormData) {
+    const isAdmin = await checkAdmin()
+
+    if(!isAdmin){
+        return {code: "",description: "",maxDiscount:"",minOrderValue:"",image :"You don't have required persmission to perform this action"}
+    }
+
     const result = updateSchema.safeParse(Object.fromEntries(formData.entries()))
-    console.log(result?.error?.formErrors?.fieldErrors, Object.fromEntries(formData.entries()))
+
     if (result.success === false) {
         return result.error.formErrors.fieldErrors
     }
@@ -89,10 +102,22 @@ export async function updateCoupon(id: string, preState: unknown, formData: Form
 }
 
 export async function updateCouponAvailability(id: string, isAvailable: boolean) {
+    const isAdmin = await checkAdmin()
+
+    if(!isAdmin){
+        throw new Error("Buddy! You don't have required permission to perform this action.");
+    }
+
     await db.coupon.update({ where: { id }, data: { isAvailable } })
 }
 
 export async function deleteCoupon(id: string) {
+    const isAdmin = await checkAdmin()
+
+    if(!isAdmin){
+        throw new Error("Buddy! You don't have required permission to perform this action.");
+    }
+
     const coupon = await db.coupon.delete({ where: { id } })
     if (coupon === null) {
         return notFound()

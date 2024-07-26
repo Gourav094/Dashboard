@@ -18,7 +18,7 @@ type User = {
     }[]
 }
 
-export default function UserList({users}:{users:User[]}){
+export default function UserList({users}:{users:User[]}){ 
     const [search,setSearch] = useState("")
     const [filteredUsers,setFilteredUsers] = useState<User[]>(users)
     const [isPending,startTransition] = useTransition()
@@ -31,9 +31,14 @@ export default function UserList({users}:{users:User[]}){
     const handleDeleteUser = async(id:string) => {
         startTransition(async() => {
             console.log("deleteing the user")
-            await deleteUser(id)
-            router.refresh()
-            toast.success("User deleted successfully")
+            try{
+                await deleteUser(id)
+                router.refresh()
+                toast.success("User deleted successfully")
+            }
+            catch(error:any){
+                toast.error(error.message)
+            }
         })
     }
     const handleChange = (e:any) => {
