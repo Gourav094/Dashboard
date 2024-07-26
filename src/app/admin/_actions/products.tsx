@@ -13,6 +13,7 @@ const fileSchema = z.instanceof(File,{message:"required"})
 const addSchema = z.object({
     name : z.string().min(1),
     description: z.string().min(1),
+    category: z.string().min(1),
     priceInCents : z.coerce.number().int().min(1),
     image : fileSchema.refine(file => file.size > 0,'required')
 })
@@ -21,7 +22,7 @@ export async function addProduct(preState:unknown,formData: FormData) {
     const isAdmin = await checkAdmin()
 
     if(!isAdmin){
-        return {name: "",description: "",priceInCents:"",image :"You don't have required persmission to perform this action"}
+        return {name: "",description: "",category: "",priceInCents:"",image :"You don't have required persmission to perform this action"}
     }
 
     const result = addSchema.safeParse(Object.fromEntries(formData.entries()))
@@ -40,6 +41,7 @@ export async function addProduct(preState:unknown,formData: FormData) {
         data:{
             name: product.name,
             description: product.description,
+            category: product.category,
             priceInCents: product.priceInCents,
             isAvailable: true,
             image: filePath
@@ -57,7 +59,7 @@ export async function updateProduct(id:string,preState:unknown,formData: FormDat
     const isAdmin = await checkAdmin()
 
     if(!isAdmin){
-        return {name: "",description: "",priceInCents:"",image :"You don't have required persmission to perform this action"}
+        return {name: "",description: "",category: "",priceInCents:"",image :"You don't have required persmission to perform this action"}
     }
     const result = updateSchema.safeParse(Object.fromEntries(formData.entries()))
     console.log(result?.error?.formErrors?.fieldErrors,Object.fromEntries(formData.entries()))
@@ -84,6 +86,7 @@ export async function updateProduct(id:string,preState:unknown,formData: FormDat
         data:{
             name: data.name,
             description: data.description,
+            category: product.category,
             priceInCents: data.priceInCents,
             isAvailable: true,
             image: filePath

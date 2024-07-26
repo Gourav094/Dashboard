@@ -28,6 +28,11 @@ const ProductForm = ({product}:{product?:Product | null}) => {
                     {error && error.description && <div className='text-destructive'>{error.description}</div>}
                 </div>
                 <div className="space-y-2">
+                    <label htmlFor="category">Product category</label>
+                    <Input type="text" name="category" id ="category" placeholder='category' required defaultValue={product?.category}/>
+                    {error && error.category && <div className='text-destructive'>{error.category}</div>}
+                </div>
+                <div className="space-y-2">
                     <label htmlFor="priceInCents">Price in cents</label>
                     <Input type="number" id="priceInCents" name="priceInCents" required
                         value={priceInCents}

@@ -22,13 +22,13 @@ export default function CouponTable({ coupons }: { coupons: Coupon[] }) {
             <Table>
                 <TableHeader>
                     <TableRow>
-                        <TableHead className='w-0'>
-                            <span className=''>Status</span>
-                        </TableHead>
                         <TableHead>Coupon code</TableHead>
                         <TableHead>Min order value</TableHead>
                         <TableHead>Max discount</TableHead>
                         <TableHead>Description</TableHead>
+                        <TableHead className=''>
+                            <span className=''>Status</span>
+                        </TableHead>
                         <TableHead className='w-0'>
                             <span className='sr-only'>Actions</span>
                         </TableHead>
@@ -37,6 +37,10 @@ export default function CouponTable({ coupons }: { coupons: Coupon[] }) {
                 <TableBody>
                     {coupons?.map(coupon => (
                         <TableRow key={coupon.id}>
+                            <TableCell>{coupon.code}</TableCell>
+                            <TableCell>{formatCurrency(coupon.minOrderValue)}</TableCell>
+                            <TableCell>{formatCurrency(coupon.maxDiscount)}</TableCell>
+                            <TableCell>{coupon.description}</TableCell>
                             <TableCell>
                                 <span className={clsx(
                                             'inline-flex items-center rounded-full px-2 py-1 text-xs',
@@ -56,10 +60,6 @@ export default function CouponTable({ coupons }: { coupons: Coupon[] }) {
                                     )}
                                 </span>
                             </TableCell>
-                            <TableCell>{coupon.code}</TableCell>
-                            <TableCell>{formatCurrency(coupon.minOrderValue)}</TableCell>
-                            <TableCell>{formatCurrency(coupon.maxDiscount)}</TableCell>
-                            <TableCell>{coupon.description}</TableCell>
                             <TableCell>
                                 <DropdownMenu>
                                     <DropdownMenuTrigger >

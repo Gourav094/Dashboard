@@ -29,6 +29,7 @@ model Product {
   name         String
   priceInCents Int
   description  String
+  category     String   @default("Electronics") 
   image        String
   isAvailable  Boolean  @default(true)
   createdAt    DateTime @default(now())

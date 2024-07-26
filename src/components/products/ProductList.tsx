@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 
 import { formatCurrency, formatNumber } from '@/lib/formatters'
+import clsx from 'clsx'
 import { MoreVertical } from 'lucide-react'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
@@ -56,38 +57,44 @@ export default function ProductList({products} : {products:Product[]}){
             <Table>
                 <TableHeader>
                 <TableRow>
-                    <TableHead className='w-0'>
-                    <span className='sr-only'>Available for purchase</span>
-                    </TableHead>
                     <TableHead>Name</TableHead>
                     <TableHead>Description</TableHead>
                     <TableHead>Price</TableHead>
                     <TableHead>Orders</TableHead>
+                    <TableHead className=''>
+                    <span className=''>Status</span>
+                    </TableHead>
                     <TableHead className='w-0'>
-                    <span className='sr-only'>Actions</span>
+                    <span className='sr-only'>Action</span>
                     </TableHead>
                 </TableRow>
                 </TableHeader>
                 <TableBody>
                     {filteredProducts?.map(product => (
                     <TableRow key = {product.id}>
-                        <TableCell>{product.isAvailable ? (
-                        <>
-                            {/* <XCircle/>
-                            <CheckCircle2/> */}
-                            <GoDotFill className='text-green-600 text-lg '/>
-                            <span className='sr-only'>Available</span>
-                        </>
-                        ) : (
-                        <>
-                            <GoDotFill className='text-red-600 text-lg '/>
-                            <span className='sr-only'>Unavailable</span>
-                        </>
-                        )}</TableCell>
                         <TableCell>{product.name}</TableCell>
                         <TableCell>{product.description}</TableCell>
                         <TableCell>{formatCurrency(product.priceInCents/100)}</TableCell>
                         <TableCell>{formatNumber(product._count.order)}</TableCell>
+                        <TableCell>
+                        <span className={clsx(
+                            'inline-flex items-center rounded-full px-2 py-1 text-xs',
+                            {
+                            'bg-gray-100 text-gray-500': product.isAvailable === false,
+                            'bg-green-500 text-white': product.isAvailable === true,
+                            },
+                        )}>
+                            {product.isAvailable ? (
+                                <>
+                                    Available
+                                </>
+                            ) : (
+                                <>
+                                    Not Available
+                                </>
+                            )}
+                        </span>
+                        </TableCell>
                         <TableCell>
                         <DropdownMenu>
                             <DropdownMenuTrigger >

@@ -63,7 +63,7 @@ export default function UserList({users}:{users:User[]}){
                 <TableRow>
                     <TableHead>Customer</TableHead>
                     <TableHead>Email</TableHead>
-                    <TableHead>orders</TableHead>
+                    <TableHead>Orders</TableHead>
                     <TableHead>Amount</TableHead>
                     <TableHead className='w-0'>
                     <span className='sr-only'>Actions</span>
